@@ -10,6 +10,7 @@ import './lib/config/dbConfig';
 import users from './routes/user';
 import brands from './routes/brand';
 import woods from './routes/wood';
+import products from './routes/product';
 import passportFunction from './lib/config/passportConfig';
 
 dotenv.config();
@@ -26,8 +27,9 @@ app.use(passport.initialize());
 passportFunction(passport);
 
 app.use('/api/v1/auth', users);
-app.use('/api/v1/products', brands);
-app.use('/api/v1/products', woods);
+app.use('/api/v1/brands', brands);
+app.use('/api/v1/woods', woods);
+app.use('/api/v1/products', products);
 
 const PORT = process.env.PORT || 9999;
 const server = app.listen(PORT, () => {
