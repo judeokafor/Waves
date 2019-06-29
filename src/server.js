@@ -5,9 +5,9 @@ import morgan from 'morgan';
 import dotenv from 'dotenv';
 import passport from 'passport';
 import '@babel/polyfill/noConflict';
+import './lib/config/dbConfig';
 
 dotenv.config();
-
 const app = express();
 
 app.use(bodyParser.json());
@@ -16,6 +16,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors());
 
 app.use(morgan('dev'));
+
 const PORT = process.env.PORT || 9999;
 const server = app.listen(PORT, () => {
   console.log(`Server started on port ${PORT}`);
