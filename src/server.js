@@ -9,6 +9,7 @@ import '@babel/polyfill/noConflict';
 import './lib/config/dbConfig';
 import users from './routes/user';
 import brands from './routes/brand';
+import woods from './routes/wood';
 import passportFunction from './lib/config/passportConfig';
 
 dotenv.config();
@@ -26,6 +27,7 @@ passportFunction(passport);
 
 app.use('/api/v1/auth', users);
 app.use('/api/v1/products', brands);
+app.use('/api/v1/products', woods);
 
 const PORT = process.env.PORT || 9999;
 const server = app.listen(PORT, () => {

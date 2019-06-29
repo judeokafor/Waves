@@ -1,15 +1,15 @@
 import express from 'express';
 import passport from 'passport';
 import isAdmin from '../lib/middleware/admin';
-import brandController from '../controllers/brand';
+import woodController from '../controllers/wood';
 
 const router = express.Router();
 router.post(
-  '/brand',
+  '/wood',
   passport.authenticate('jwt', { session: false }),
   isAdmin,
-  brandController.createBrand,
+  woodController.createWood,
 );
-router.get('/brands', brandController.getAllBrands);
+router.get('/woods', woodController.getAllWoods);
 
 export default router;
