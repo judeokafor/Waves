@@ -8,6 +8,7 @@ import '@babel/polyfill/noConflict';
 
 import './lib/config/dbConfig';
 import users from './routes/user';
+import passportFunction from './lib/config/passportConfig';
 
 dotenv.config();
 const app = express();
@@ -18,6 +19,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors());
 
 app.use(morgan('dev'));
+
+app.use(passport.initialize());
+passportFunction(passport);
 
 app.use('/api/v1/auth', users);
 

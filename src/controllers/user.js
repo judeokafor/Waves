@@ -5,7 +5,6 @@ import jwt from 'jsonwebtoken';
 import gravatar from 'gravatar';
 import Joi from 'joi';
 
-import env from '../lib/config/env';
 import errorHandler from '../lib/helpers/errorHandler';
 import validation from '../lib/validations/user';
 import User from '../models/User';
@@ -61,6 +60,41 @@ export default class userController {
           .json({ loginSuccess: false, message: 'User Not Found' });
       }
       return errorHandler.validationError(res, result);
+    } catch (error) {
+      errorHandler.tryCatchError(res, error);
+    }
+  }
+
+  static currentProfile(req, res) {
+    if (req.user) {
+      const {
+        isAdmin, email, name, lastname, cart, history,
+      } = req.user;
+      return res.status(200).json({
+        isAdmin,
+        isAuth: true,
+        email,
+        name,
+        lastname,
+        cart,
+        history,
+      });
+    }
+  }
+
+  static async logOut(req, res) {
+    try {
+      const response = await User.findOneAndUpdate(
+        { _id: req.user._id },
+        { token: '' },
+      );
+      if (response) {
+        req.logOut();
+        return res.status(200).json({
+          success: true,
+          message: 'Log out succesfully',
+        });
+      }
     } catch (error) {
       errorHandler.tryCatchError(res, error);
     }
