@@ -1,0 +1,23 @@
+import express from 'express';
+import bodyParser from 'body-parser';
+import cors from 'cors';
+import morgan from 'morgan';
+import dotenv from 'dotenv';
+import passport from 'passport';
+import '@babel/polyfill/noConflict';
+
+dotenv.config();
+
+const app = express();
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+
+app.use(cors());
+
+app.use(morgan('dev'));
+const PORT = process.env.PORT || 9999;
+const server = app.listen(PORT, () => {
+  console.log(`Server started on port ${PORT}`);
+});
+export default server;
