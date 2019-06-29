@@ -5,7 +5,9 @@ import morgan from 'morgan';
 import dotenv from 'dotenv';
 import passport from 'passport';
 import '@babel/polyfill/noConflict';
+
 import './lib/config/dbConfig';
+import users from './routes/user';
 
 dotenv.config();
 const app = express();
@@ -16,6 +18,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors());
 
 app.use(morgan('dev'));
+
+app.use('/api/v1/auth', users);
 
 const PORT = process.env.PORT || 9999;
 const server = app.listen(PORT, () => {
