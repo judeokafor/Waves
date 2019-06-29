@@ -5,6 +5,7 @@ mongoose
   .connect(env.DATABASE_URL, {
     useNewUrlParser: true,
     useCreateIndex: true,
+    useFindAndModify: false,
   })
   .then(() => {
     console.log(`MongoDB connected to ${env.DATABASE_URL}`);
