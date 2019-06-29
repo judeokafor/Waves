@@ -23,4 +23,19 @@ export default class User {
       isAdmin: Joi.string(),
     });
   }
+
+  static get signInUser() {
+    return Joi.object({
+      email: Joi.string()
+        .email()
+        .trim()
+        .min(3)
+        .max(150)
+        .required(),
+      password: Joi.string()
+        .min(5)
+        .max(30)
+        .required(),
+    });
+  }
 }

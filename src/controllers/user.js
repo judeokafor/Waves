@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 /* eslint-disable consistent-return */
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
@@ -27,6 +28,37 @@ export default class userController {
         return res
           .status(400)
           .json({ success: false, message: 'Email Already Exist' });
+      }
+      return errorHandler.validationError(res, result);
+    } catch (error) {
+      errorHandler.tryCatchError(res, error);
+    }
+  }
+
+  static async signIn(req, res) {
+    try {
+      const { email, password } = req.body;
+      const result = Joi.validate(req.body, validation.signInUser, {
+        convert: false,
+      });
+      if (result.error === null) {
+        const user = await User.findOne({ email });
+        if (user) {
+          const isMatch = await user.comparePassword(password);
+          if (isMatch) {
+            const { token } = await user.generateToken();
+            return res.status(201).json({
+              loginSuccess: true,
+              token: `Bearer ${token}`,
+            });
+          }
+          return res
+            .status(400)
+            .json({ loginSuccess: false, message: 'Password Incorrect' });
+        }
+        return res
+          .status(404)
+          .json({ loginSuccess: false, message: 'User Not Found' });
       }
       return errorHandler.validationError(res, result);
     } catch (error) {
